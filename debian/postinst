@@ -1,0 +1,37 @@
+#!/bin/bash
+set -e
+
+mkdir -p /opt/roboparty/{lib,include,bin,share}
+
+PYTHON_VER=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+mkdir -p "/opt/roboparty/lib/python${PYTHON_VER}/site-packages"
+
+ldconfig
+
+# Set Python path globally using a .pth file
+PTH_DIR="/usr/lib/python3/dist-packages"
+mkdir -p "$PTH_DIR"
+echo "/opt/roboparty/lib/python${PYTHON_VER}/site-packages" > "$PTH_DIR/roboparty.pth"
+
+# Set CMAKE_PREFIX_PATH and PKG_CONFIG_PATH for /opt/roboparty
+cat > /etc/profile.d/roboparty.sh << 'EOF'
+export PATH=/opt/roboparty/bin${PATH:+:$PATH}
+export CMAKE_PREFIX_PATH=/opt/roboparty${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
+export PKG_CONFIG_PATH=/opt/roboparty/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
+EOF
+chmod 644 /etc/profile.d/roboparty.sh
+
+# Add /opt/roboparty/bin to sudo secure_path
+cp /etc/sudoers /etc/sudoers.bak
+sed -i '/secure_path/s|"$|:/opt/roboparty/bin"|' /etc/sudoers
+
+# Allow non-root users to set realtime scheduling priority (required by ROS 2)
+grep -q '@orangepi - rtprio 99' /etc/security/limits.conf 2>/dev/null || \
+    echo '@orangepi - rtprio 99' >> /etc/security/limits.conf
+grep -q '@orangepi - memlock unlimited' /etc/security/limits.conf 2>/dev/null || \
+    echo '@orangepi - memlock unlimited' >> /etc/security/limits.conf
+
+# Reload udev rules and trigger device events
+udevadm control --reload-rules
+udevadm trigger --subsystem-match=tty
+udevadm trigger --subsystem-match=net

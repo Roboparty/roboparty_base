@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+if [ "$1" = "purge" ]; then
+    rm -rf /opt/roboparty
+    rm -f /etc/ld.so.conf.d/roboparty.conf
+    rm -f /usr/lib/python3/dist-packages/roboparty.pth
+    rm -f /etc/profile.d/roboparty.sh
+    sed -i 's|:/opt/roboparty/bin||' /etc/sudoers 2>/dev/null
+    sed -i '/@orangepi - rtprio 99/d' /etc/security/limits.conf 2>/dev/null
+    sed -i '/@orangepi - memlock unlimited/d' /etc/security/limits.conf 2>/dev/null
+    ldconfig
+    udevadm control --reload-rules
+    udevadm trigger --subsystem-match=tty
+    udevadm trigger --subsystem-match=net
+fi

@@ -1,0 +1,2 @@
+# rdk x5 board CAN udev rules
+SUBSYSTEM=="net", ACTION=="add", KERNELS=="spi5.0", KERNEL=="can*", NAME="can_rdk"

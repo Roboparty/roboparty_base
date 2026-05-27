@@ -1,0 +1,5 @@
+# stm32 CAN 2.0 (gs_usb)
+SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{manufacturer}=="wentywenty", ATTRS{product}=="roboto_usb2can", ATTRS{bcdDevice}=="0200", RUN+="/sbin/ip link set %k type can bitrate 1000000 sjw 4 restart-ms 100", RUN+="/sbin/ip link set %k txqueuelen 1000", RUN+="/sbin/ip link set %k up"
+
+# stm32 CAN fd (gs_usb)
+SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{manufacturer}=="wentywenty", ATTRS{product}=="roboto_usb2can", ATTRS{bcdDevice}=="0300", RUN+="/sbin/ip link set %k type can bitrate 1000000 sample-point 0.800 sjw 4 dbitrate 5000000 dsample-point 0.750 dsjw 2 fd on restart-ms 100", RUN+="/sbin/ip link set %k mtu 72", RUN+="/sbin/ip link set %k txqueuelen 10000", RUN+="/sbin/ip link set %k up"

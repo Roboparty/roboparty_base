@@ -1,0 +1,10 @@
+/etc/ld.so.conf.d/roboparty.conf
+/etc/udev/rules.d/99-can_f81601a.rules
+/etc/udev/rules.d/99-can_hinpuc.rules
+/etc/udev/rules.d/99-can_hpm.rules
+/etc/udev/rules.d/99-can_lro.rules
+/etc/udev/rules.d/99-can_rdk.rules
+/etc/udev/rules.d/99-can_stm32.rules
+/etc/udev/rules.d/99-ethercat_hpm.rules
+/etc/udev/rules.d/99-serial_hinpuc.rules
+/etc/udev/rules.d/99-serial_tws.rules

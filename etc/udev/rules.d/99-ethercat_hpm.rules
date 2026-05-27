@@ -1,0 +1,2 @@
+# hpm ethercat to can udev rules
+KERNEL=="EtherCAT[0-9]*", MODE="0666"
