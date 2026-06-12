@@ -1,2 +1,2 @@
 # rdk x5 board CAN udev rules
-SUBSYSTEM=="net", ACTION=="add", KERNELS=="spi5.0", KERNEL=="can*", NAME="can_rdk"
+SUBSYSTEM=="net", ACTION=="add", KERNELS=="spi5.0", KERNEL=="can*", NAME="can_rdk", RUN+="/sbin/ip link set can_rdk type can bitrate 1000000 sample-point 0.800 sjw 4 dbitrate 5000000 dsample-point 0.750 dsjw 2 fd on", RUN+="/sbin/ip link set can_rdk mtu 72", RUN+="/sbin/ip link set can_rdk txqueuelen 10000", RUN+="/sbin/ip link set can_rdk up"

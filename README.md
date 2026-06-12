@@ -1,4 +1,4 @@
-# roboparty_base
+# roboto_base
 
 Base package for RoboParty robot platform. Initializes the `/opt/roboparty` directory structure and configures system-level dependencies.
 
@@ -7,7 +7,7 @@ Base package for RoboParty robot platform. Initializes the `/opt/roboparty` dire
 - `/opt/roboparty/{lib,include,bin,share}` directory skeleton
 - `ldconfig` configuration for `/opt/roboparty/lib`
 - `CMAKE_PREFIX_PATH` and `PKG_CONFIG_PATH` environment setup via `/etc/profile.d/roboparty.sh`
-- udev rules for CAN adapters (F81601A, Hinpuc, RDK, Roboparty)
+- udev rules for CAN adapters (F81601A, Hinpuc, RDK, Roboto)
 - udev rules for EtherCAT devices (DM, IF1100)
 - udev rules for serial devices (Hinpuc, TWS)
 
@@ -22,12 +22,12 @@ The `.deb` file will be generated in the current directory.
 ## Install
 
 ```bash
-sudo dpkg -i roboparty-base_*.deb
+sudo dpkg -i roboto-base_*.deb
 ```
 
 ## Uninstall
 
 ```bash
-sudo dpkg -r roboparty-base     # remove
-sudo dpkg -P roboparty-base     # purge (removes /opt/roboparty)
+sudo dpkg -r roboto-base     # remove
+sudo dpkg -P roboto-base     # purge (removes /opt/roboparty)
 ```

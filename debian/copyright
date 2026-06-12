@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: roboparty-base
-Source: https://github.com/wentywenty/roboparty_base
+Upstream-Name: roboto-base
+Source: https://github.com/wentywenty/roboto_base
 
 Files: *
 Copyright: 2026 wentywenty
