@@ -1,17 +1,17 @@
-roboto-base (1.0.4-1) stable; urgency=medium
+roboparty-base (1.0.4-1) stable; urgency=medium
 
   * update series udev
 
  -- wentywenty <2321901849@qq.com>  Mon, 18 May 2026 13:45:21 +0800
 
-roboto-base (1.0.3-2) stable; urgency=medium
+roboparty-base (1.0.3-2) stable; urgency=medium
 
   * Update standard deb package
   * update can devices udev
 
  -- wentywenty <2321901849@qq.com>  Thu, 07 May 2026 16:35:38 +0800
 
-roboto-base (1.0.2-1) unstable; urgency=medium
+roboparty-base (1.0.2-1) unstable; urgency=medium
 
   * Initial standard Debian package release.
 

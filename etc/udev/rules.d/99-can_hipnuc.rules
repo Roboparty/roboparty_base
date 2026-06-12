@@ -1,0 +1,2 @@
+# Rockchip built-in CAN 2.0 connect hipnuc IMU
+SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", KERNELS=="fea60000.can", NAME="can_hipnuc", RUN+="/sbin/ip link set can_hipnuc up type can bitrate 1000000", RUN+="/sbin/ip link set can_hipnuc txqueuelen 1000"

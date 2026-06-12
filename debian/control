@@ -1,10 +1,10 @@
-Source: roboto-base
+Source: roboparty-base
 Section: misc
 Priority: optional
 Maintainer: wentywenty <2321901849@qq.com>
 Build-Depends: debhelper-compat (= 12), python3
 
-Package: roboto-base
+Package: roboparty-base
 Architecture: all
 Depends: ${misc:Depends}
 Description: RoboParty base package

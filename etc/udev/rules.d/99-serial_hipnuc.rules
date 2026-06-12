@@ -1,0 +1,2 @@
+# CP210x USB-Serial (HIPNUC IMU)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="serial_hipnuc", MODE="0666"

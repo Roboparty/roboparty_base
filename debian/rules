@@ -12,15 +12,15 @@ override_dh_auto_build:
 override_dh_install:
 	dh_install
 	
-	install -d debian/roboto-base/opt/roboparty/lib/python$(PYTHON_VER)/site-packages
-	install -d debian/roboto-base/opt/roboparty/include
-	install -d debian/roboto-base/opt/roboparty/bin
-	install -d debian/roboto-base/opt/roboparty/share
+	install -d debian/roboparty-base/opt/roboparty/lib/python$(PYTHON_VER)/site-packages
+	install -d debian/roboparty-base/opt/roboparty/include
+	install -d debian/roboparty-base/opt/roboparty/bin
+	install -d debian/roboparty-base/opt/roboparty/share
 	
-	install -m 644 setup.bash debian/roboto-base/opt/roboparty/
+	install -m 644 setup.bash debian/roboparty-base/opt/roboparty/
 	
-	install -d debian/roboto-base/etc/ld.so.conf.d
-	install -m 644 etc/ld.so.conf.d/roboparty.conf debian/roboto-base/etc/ld.so.conf.d/
+	install -d debian/roboparty-base/etc/ld.so.conf.d
+	install -m 644 etc/ld.so.conf.d/roboparty.conf debian/roboparty-base/etc/ld.so.conf.d/
 	
-	install -d debian/roboto-base/etc/udev/rules.d
-	install -m 644 etc/udev/rules.d/*.rules debian/roboto-base/etc/udev/rules.d/
+	install -d debian/roboparty-base/etc/udev/rules.d
+	install -m 644 etc/udev/rules.d/*.rules debian/roboparty-base/etc/udev/rules.d/
