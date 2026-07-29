@@ -24,3 +24,15 @@ override_dh_install:
 	
 	install -d debian/roboparty-base/etc/udev/rules.d
 	install -m 644 etc/udev/rules.d/*.rules debian/roboparty-base/etc/udev/rules.d/
+
+	install -d debian/roboparty-base/etc/systemd/system
+	install -m 644 etc/systemd/system/wifi-reset.service debian/roboparty-base/etc/systemd/system/
+	install -m 644 etc/systemd/system/hpm-reset.service debian/roboparty-base/etc/systemd/system/
+
+	install -d debian/roboparty-base/etc/roboparty
+	install -m 755 etc/roboparty/wifi-reconnect.sh debian/roboparty-base/etc/roboparty/
+	install -m 755 etc/roboparty/reset_hpm.sh debian/roboparty-base/etc/roboparty/
+
+	install -d debian/roboparty-base/etc/default
+	install -m 644 etc/default/wifi-reset debian/roboparty-base/etc/default/
+	install -m 644 etc/default/hpm-reset debian/roboparty-base/etc/default/

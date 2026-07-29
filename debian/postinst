@@ -35,3 +35,12 @@ grep -q '@orangepi - memlock unlimited' /etc/security/limits.conf 2>/dev/null ||
 udevadm control --reload-rules
 udevadm trigger --subsystem-match=tty
 udevadm trigger --subsystem-match=net
+
+# Enable and start WiFi reset monitor
+systemctl daemon-reload
+systemctl enable wifi-reset.service
+systemctl start wifi-reset.service
+
+# Enable and start HPM reset monitor
+systemctl enable hpm-reset.service
+systemctl start hpm-reset.service

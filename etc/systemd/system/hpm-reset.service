@@ -1,28 +1,23 @@
 [Unit]
 Description=RoboParty HPM Reset Monitor (GPIO1_B7 watchdog)
-Documentation=https://github.com/roboparty/ecatfd-master
+Documentation=https://github.com/Roboparty/roboparty_base
 After=ethercat.service roboparty-ecatfd-master.service
 Requires=ethercat.service
 Wants=roboparty-ecatfd-master.service
 
 [Service]
 Type=simple
-Environment="RESET_GPIO=47"
-Environment="CHECK_INTERVAL=2"
-Environment="FAIL_THRESHOLD=10"
-Environment="RESET_HOLD_TIME=0.5"
-Environment="RESET_ACTIVE_HIGH=1"
-Environment="POST_RESET_WAIT=15"
+EnvironmentFile=/etc/default/hpm-reset
 ExecStartPre=/usr/bin/modprobe ec_master
 ExecStartPre=/bin/sleep 3
-ExecStart=/opt/roboparty/ethercat/bin/hpm-reset-monitor.sh
+ExecStart=/etc/roboparty/reset_hpm.sh
 Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=hpm-reset-monitor
 
-# 安全加固
+# Security hardening
 NoNewPrivileges=yes
 PrivateTmp=yes
 ProtectSystem=strict
