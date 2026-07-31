@@ -38,9 +38,9 @@ udevadm trigger --subsystem-match=net
 
 # Enable and start WiFi reset monitor
 systemctl daemon-reload
-systemctl enable wifi-reset.service
-systemctl start wifi-reset.service
+systemctl enable wifi-reset.service 2>/dev/null || true
+systemctl start wifi-reset.service 2>/dev/null || true
 
 # Enable and start HPM reset monitor
-systemctl enable hpm-reset.service
-systemctl start hpm-reset.service
+systemctl enable hpm-reset.service 2>/dev/null || true
+systemctl start hpm-reset.service 2>/dev/null || true

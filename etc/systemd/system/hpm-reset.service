@@ -1,14 +1,11 @@
 [Unit]
 Description=RoboParty HPM Reset Monitor (GPIO1_B7 watchdog)
 Documentation=https://github.com/Roboparty/roboparty_base
-After=ethercat.service roboparty-ecatfd-master.service
-Requires=ethercat.service
-Wants=roboparty-ecatfd-master.service
+After=multi-user.target
 
 [Service]
 Type=simple
 EnvironmentFile=/etc/default/hpm-reset
-ExecStartPre=/usr/bin/modprobe ec_master
 ExecStartPre=/bin/sleep 3
 ExecStart=/etc/roboparty/reset_hpm.sh
 Restart=always

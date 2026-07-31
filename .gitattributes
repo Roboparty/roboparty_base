@@ -1,0 +1,12 @@
+# Force LF line endings for all shell scripts and debian packaging files
+* text=auto
+
+*.sh text eol=lf
+*.bash text eol=lf
+debian/rules text eol=lf
+debian/postinst text eol=lf
+debian/postrm text eol=lf
+debian/conffiles text eol=lf
+debian/control text eol=lf
+debian/changelog text eol=lf
+debian/copyright text eol=lf
