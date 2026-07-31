@@ -2,6 +2,15 @@
 set -e
 
 if [ "$1" = "purge" ]; then
+    systemctl stop wifi-reset.service 2>/dev/null || true
+    systemctl disable wifi-reset.service 2>/dev/null || true
+    systemctl stop hpm-reset.service 2>/dev/null || true
+    systemctl disable hpm-reset.service 2>/dev/null || true
+    rm -f /etc/systemd/system/wifi-reset.service
+    rm -f /etc/systemd/system/hpm-reset.service
+    rm -f /opt/roboparty/bin/wifi-reconnect.sh
+    rm -f /opt/roboparty/bin/reset_hpm.sh
+    systemctl daemon-reload
     rm -rf /opt/roboparty
     rm -f /etc/ld.so.conf.d/roboparty.conf
     rm -f /usr/lib/python3/dist-packages/roboparty.pth
