@@ -1,3 +1,11 @@
+roboparty-base (1.1.1-1) stable; urgency=medium
+
+  * Add wifi-reset and hpm-reset systemd services
+  * Restore debian/conffiles entries
+  * Move scripts to /opt/roboparty/bin
+
+ -- wentywenty <2321901849@qq.com>  Thu, 31 Jul 2026 00:00:00 +0800
+
 roboparty-base (1.1.0-1) stable; urgency=medium
 
   * update series udev

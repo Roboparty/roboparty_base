@@ -29,14 +29,8 @@ log_msg() {
 # Returns 0 = WiFi connected
 # Returns 1 = WiFi disconnected
 check_wifi() {
-    # Method 1: nmcli — most reliable
+    # Method 1: nmcli — check specific WiFi device state
     if command -v nmcli &>/dev/null; then
-        local state
-        state=$(nmcli -t -f STATE general 2>/dev/null)
-        if [ "$state" = "connected" ]; then
-            return 0
-        fi
-        # Also check the specific WiFi device state
         local wifi_state
         wifi_state=$(nmcli -t -f GENERAL.STATE device show "$WIFI_INTERFACE" 2>/dev/null | cut -d: -f2)
         if [ "$wifi_state" = "100" ]; then
@@ -69,6 +63,10 @@ reconnect_wifi() {
 
     # Method 1: use nmcli saved connections
     if command -v nmcli &>/dev/null; then
+        # Ensure WiFi device is enabled
+        nmcli radio wifi on 2>/dev/null || true
+        nmcli device set "$WIFI_INTERFACE" managed true 2>/dev/null || true
+
         # Get all saved WiFi connection names
         local connections
         connections=$(nmcli -t -f NAME,TYPE connection show 2>/dev/null | grep ":802-11-wireless" | cut -d: -f1)
@@ -76,14 +74,9 @@ reconnect_wifi() {
         if [ -n "$connections" ]; then
             log_msg "INFO" "Found $(echo "$connections" | wc -l) saved WiFi connection(s)"
 
-            # Try each connection one by one
             while IFS= read -r conn; do
                 [ -z "$conn" ] && continue
                 log_msg "INFO" "Trying connection: [$conn]"
-
-                # Ensure WiFi device is enabled
-                nmcli radio wifi on 2>/dev/null || true
-                nmcli device set "$WIFI_INTERFACE" managed true 2>/dev/null || true
 
                 if nmcli connection up "$conn" 2>/dev/null; then
                     # Wait for DHCP to assign an IP

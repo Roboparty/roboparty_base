@@ -53,7 +53,7 @@ gpio_setup() {
         echo "$RESET_GPIO" > /sys/class/gpio/export 2>/dev/null || true
         for _ in $(seq 1 10); do
             [ -d "$gpio_dir" ] && break
-            usleep 100000
+            sleep 0.1
         done
     fi
 

@@ -7,7 +7,7 @@ Wants=NetworkManager.service
 [Service]
 Type=simple
 EnvironmentFile=/etc/default/wifi-reset
-ExecStart=/etc/roboparty/wifi-reconnect.sh
+ExecStart=/opt/roboparty/bin/wifi-reconnect.sh
 Restart=always
 RestartSec=10
 StandardOutput=journal

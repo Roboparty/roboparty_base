@@ -30,9 +30,8 @@ override_dh_install:
 	install -m 644 etc/systemd/system/wifi-reset.service debian/roboparty-base/etc/systemd/system/
 	install -m 644 etc/systemd/system/hpm-reset.service debian/roboparty-base/etc/systemd/system/
 
-	install -d debian/roboparty-base/etc/roboparty
-	install -m 755 etc/roboparty/wifi-reconnect.sh debian/roboparty-base/etc/roboparty/
-	install -m 755 etc/roboparty/reset_hpm.sh debian/roboparty-base/etc/roboparty/
+	install -m 755 scripts/wifi-reconnect.sh debian/roboparty-base/opt/roboparty/bin/
+	install -m 755 scripts/reset_hpm.sh debian/roboparty-base/opt/roboparty/bin/
 
 	install -d debian/roboparty-base/etc/default
 	install -m 644 etc/default/wifi-reset debian/roboparty-base/etc/default/
