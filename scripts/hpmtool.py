@@ -932,19 +932,23 @@ class HPMLoader(object):
         self.write_memory(self.SRAM_FLAG, self.FLASH_CONF_ADDR, len(config_bytes), config_bytes)
         self.configure_memory(xip_num, self.FLASH_CONF_ADDR)
 
-    def flash_set_file(self, arg, xip_num):
+    def _flash_addr(self, addr, xip_num):
         XPI_BASE = self.XPI0_START if xip_num == self.XPI0_FLAG else self.XPI1_START
+        return addr if addr >= XPI_BASE else XPI_BASE + addr
+
+    def flash_set_file(self, arg, xip_num):
         for addr_obj, file_obj in arg.addr_filename:
             # 读取文件内容
             file_content = file_obj.read()
             # 使用 self.write_memory 发送数据
-            print("xip_num: %d, Write files to Flash: %s, addr: 0x%08x, size: %d" % (xip_num, file_obj.name, XPI_BASE + addr_obj, len(file_content)))
-            self.write_memory(xip_num, XPI_BASE + addr_obj, len(file_content), file_content)
+            flash_addr = self._flash_addr(addr_obj, xip_num)
+            print("xip_num: %d, Write files to Flash: %s, addr: 0x%08x, size: %d" % (xip_num, file_obj.name, flash_addr, len(file_content)))
+            self.write_memory(xip_num, flash_addr, len(file_content), file_content)
             print(' OK!')
 
     def flash_get_file(self, arg, xip_num):
-        XPI_BASE = self.XPI0_START if xip_num == self.XPI0_FLAG else self.XPI1_START
-        ret, rs_data = self.read_memory(self.XPI0_FLAG, XPI_BASE + arg.address, arg.size)
+        flash_addr = self._flash_addr(arg.address, xip_num)
+        ret, rs_data = self.read_memory(xip_num, flash_addr, arg.size)
         if ret == HPM_OK:
             with open(arg.filename, 'wb') as file:
                 file.write(rs_data)
