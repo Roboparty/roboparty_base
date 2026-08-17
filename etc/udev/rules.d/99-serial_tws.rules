@@ -1,2 +1,0 @@
-# TWS BMS UDEV Rule (CH340)
-SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="serial_tws", MODE="0666"

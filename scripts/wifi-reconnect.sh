@@ -21,8 +21,7 @@ LOG_TAG="wifi-reset-monitor"
 log_msg() {
     local level="${1:-INFO}"
     shift
-    logger -t "$LOG_TAG" -p "daemon.${level}" "$*"
-    printf '[%s] [%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$level" "$*" >&2
+    echo "${LOG_TAG}: [$level] $*" > /dev/kmsg 2>/dev/null || true
 }
 
 # ---- WiFi connection state detection -----------------------------------------
@@ -135,23 +134,7 @@ report_failure() {
     local msg="WiFi reconnect failed! ${FAIL_THRESHOLD} consecutive attempts could not restore the connection. Please check the wireless network."
     log_msg "ERR" "$msg"
 
-    # Multiple reporting channels
-
-    # 1. Desktop notification (X11/Wayland)
-    if command -v notify-send &>/dev/null; then
-        for disp in /tmp/.X11-unix/X*; do
-            local dnum
-            dnum=$(basename "$disp" | sed 's/^X//')
-            DISPLAY=":${dnum}" notify-send -u critical "WiFi Reconnect Failed" "$msg" 2>/dev/null || true
-        done
-    fi
-
-    # 2. wall broadcast to all terminals
-    if command -v wall &>/dev/null; then
-        echo "[WiFi Reset Monitor] ${msg}" | wall 2>/dev/null || true
-    fi
-
-    # 3. Write marker file for external monitoring
+    # Write marker file for external monitoring
     mkdir -p /var/run/roboparty
     echo "$(date '+%Y-%m-%d %H:%M:%S') ${msg}" > /var/run/roboparty/wifi-failure
 }

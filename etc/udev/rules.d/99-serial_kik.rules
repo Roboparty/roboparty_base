@@ -1,0 +1,2 @@
+# Rockchip built-in UART (kik)
+SUBSYSTEM=="tty", KERNELS=="feb60000.serial", SYMLINK+="serial_kik", MODE="0666"

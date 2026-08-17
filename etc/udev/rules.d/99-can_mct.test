@@ -1,0 +1,2 @@
+# Rockchip built-in CAN FD 500k/2M (hipnuc IMU)
+# SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", KERNELS=="fea60000.can", NAME="can_hipnuc", RUN+="/sbin/ip link set can_hipnuc up type can bitrate 500000 dbitrate 2000000 fd on", RUN+="/sbin/ip link set can_hipnuc txqueuelen 1000"

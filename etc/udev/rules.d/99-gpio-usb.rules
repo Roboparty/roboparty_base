@@ -1,0 +1,5 @@
+# Allow normal users to control the docking USB hub (FE1.1S) reset GPIO
+# gpio-leds sysfs: /sys/class/leds/usb_hub_reset/brightness
+# 0 = GPIO low  = hub enabled (normal)
+# 1 = GPIO high = hub reset
+SUBSYSTEM=="leds", KERNEL=="usb_hub_reset", ACTION=="add", RUN+="/bin/chmod 0666 /sys/class/leds/usb_hub_reset/brightness"
