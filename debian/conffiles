@@ -7,5 +7,3 @@
 /etc/udev/rules.d/99-can_stm32.rules
 /etc/udev/rules.d/99-ethercat_hpm.rules
 /etc/udev/rules.d/99-serial_hipnuc.rules
-/etc/default/wifi-reset
-/etc/default/hpm-reset

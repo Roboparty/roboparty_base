@@ -6,7 +6,7 @@ Build-Depends: debhelper-compat (= 12), python3
 
 Package: roboparty-base
 Architecture: all
-Depends: ${misc:Depends}, python3-serial, python3-usb, python3-pip
+Depends: ${misc:Depends}, python3
 Description: RoboParty base package
  Initializes /opt/roboparty directory structure and configures
  ldconfig for shared library loading.
