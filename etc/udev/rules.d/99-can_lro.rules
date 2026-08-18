@@ -1,5 +1,5 @@
 # Rockchip built-in CAN FD (leg motors)
-SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", KERNELS=="fea70000.can", NAME="can_top", RUN+="/sbin/ip link set can_top up type can bitrate 1000000 dbitrate 5000000 fd on", RUN+="/sbin/ip link set can_top txqueuelen 1000"
+SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", KERNELS=="fea70000.can", NAME="can_bottom", RUN+="/sbin/ip link set can_bottom up type can bitrate 1000000 dbitrate 5000000 fd on", RUN+="/sbin/ip link set can_bottom txqueuelen 1000"
 
 # Rockchip built-in CAN FD (leg motors)
-SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", KERNELS=="fea50000.can", NAME="can_bottom", RUN+="/sbin/ip link set can_bottom up type can bitrate 1000000 dbitrate 5000000 fd on", RUN+="/sbin/ip link set can_bottom txqueuelen 1000"
+SUBSYSTEM=="net", ACTION=="add", KERNEL=="can*", KERNELS=="fea50000.can", NAME="can_top", RUN+="/sbin/ip link set can_top up type can bitrate 1000000 dbitrate 5000000 fd on", RUN+="/sbin/ip link set can_top txqueuelen 1000"
