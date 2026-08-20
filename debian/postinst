@@ -35,3 +35,4 @@ grep -q '@orangepi - memlock unlimited' /etc/security/limits.conf 2>/dev/null ||
 udevadm control --reload-rules
 udevadm trigger --subsystem-match=tty
 udevadm trigger --subsystem-match=net
+udevadm trigger --subsystem-match=misc
