@@ -13,7 +13,6 @@ override_dh_auto_install:
 override_dh_install:
 	dh_install
 
-	install -d debian/roboparty-base/opt/roboparty/lib/python3.10/site-packages
 	install -d debian/roboparty-base/opt/roboparty/include
 	install -d debian/roboparty-base/opt/roboparty/bin
 	install -d debian/roboparty-base/opt/roboparty/share
@@ -22,6 +21,9 @@ override_dh_install:
 
 	install -d debian/roboparty-base/etc/ld.so.conf.d
 	install -m 644 etc/ld.so.conf.d/roboparty.conf debian/roboparty-base/etc/ld.so.conf.d/
+
+	install -d debian/roboparty-base/usr/lib/python3/dist-packages
+	install -m 644 roboparty.pth debian/roboparty-base/usr/lib/python3/dist-packages/
 
 	install -d debian/roboparty-base/etc/udev/rules.d
 	install -m 644 etc/udev/rules.d/*.rules debian/roboparty-base/etc/udev/rules.d/

@@ -1,3 +1,10 @@
+roboparty-base (1.1.7-1) stable; urgency=medium
+
+  * Resolve the RoboParty Python package path from the runtime Python version.
+  * Install a version-independent roboparty.pth for Python 3.10 and 3.12.
+
+ -- wentywenty <2321901849@qq.com>  Thu, 10 Sep 2026 17:49:34 +0800
+
 roboparty-base (1.1.6-1) stable; urgency=medium
 
   * Bump package version.
