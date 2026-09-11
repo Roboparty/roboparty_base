@@ -20,12 +20,6 @@ chmod 644 /etc/profile.d/roboparty.sh
 cp /etc/sudoers /etc/sudoers.bak
 sed -i '/secure_path/s|"$|:/opt/roboparty/bin"|' /etc/sudoers
 
-# Allow non-root users to set realtime scheduling priority (required by ROS 2)
-grep -q '@orangepi - rtprio 99' /etc/security/limits.conf 2>/dev/null || \
-    echo '@orangepi - rtprio 99' >> /etc/security/limits.conf
-grep -q '@orangepi - memlock unlimited' /etc/security/limits.conf 2>/dev/null || \
-    echo '@orangepi - memlock unlimited' >> /etc/security/limits.conf
-
 # Reload udev rules and trigger device events
 udevadm control --reload-rules
 udevadm trigger --subsystem-match=tty
