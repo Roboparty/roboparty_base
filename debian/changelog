@@ -1,3 +1,9 @@
+roboparty-base (1.1.11-1) stable; urgency=medium
+
+  * Rebuild and republish the package.
+
+ -- wentywenty <2321901849@qq.com>  Mon, 02 Nov 2026 17:58:59 +0800
+
 roboparty-base (1.1.10-1) stable; urgency=medium
 
   * match HPM CAN adapter by product name instead of serial number
