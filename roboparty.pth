@@ -1,1 +1,1 @@
-import sys; sys.path.insert(0, "/opt/roboparty/lib/python%d.%d/site-packages" % sys.version_info[:2])
+import os, sys; sys.path.insert(0, (os.environ.get("ROBOOS_PREFIX") or "/opt/roboparty") + "/lib/python%d.%d/site-packages" % sys.version_info[:2])

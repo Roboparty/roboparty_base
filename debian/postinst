@@ -1,39 +1,57 @@
 #!/bin/bash
 set -e
 
-mkdir -p /opt/roboparty/{lib,include,bin,share}
+mkdir -p @INSTALL_PREFIX@/{lib,include,bin,share}
 
 PYTHON_VER=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
-mkdir -p "/opt/roboparty/lib/python${PYTHON_VER}/site-packages"
+mkdir -p "@INSTALL_PREFIX@/lib/python${PYTHON_VER}/site-packages"
 
-ldconfig
+# Publish the install prefix for scripts and systemd units.
+mkdir -p /etc/roboos
+printf 'ROBOOS_PREFIX=%s\n' '@INSTALL_PREFIX@' > /etc/roboos/env
+chmod 644 /etc/roboos/env
 
-# Set CMAKE_PREFIX_PATH and PKG_CONFIG_PATH for /opt/roboparty
-cat > /etc/profile.d/roboparty.sh << 'EOF'
-export PATH=/opt/roboparty/bin${PATH:+:$PATH}
-export CMAKE_PREFIX_PATH=/opt/roboparty${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
-export PKG_CONFIG_PATH=/opt/roboparty/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
+mkdir -p /etc/profile.d
+cat > /etc/profile.d/roboos.sh << 'EOF'
+export ROBOOS_PREFIX=@INSTALL_PREFIX@
+[ -f "$ROBOOS_PREFIX/setup.bash" ] && . "$ROBOOS_PREFIX/setup.bash"
 EOF
-chmod 644 /etc/profile.d/roboparty.sh
+chmod 644 /etc/profile.d/roboos.sh
+rm -f /etc/profile.d/roboparty.sh
 
-# Add /opt/roboparty/bin to sudo secure_path
-cp /etc/sudoers /etc/sudoers.bak
-sed -i '/secure_path/s|"$|:/opt/roboparty/bin"|' /etc/sudoers
+# ld.so.conf cannot reference environment variables; generate it here.
+mkdir -p /etc/ld.so.conf.d
+printf '%s\n' '@INSTALL_PREFIX@/lib' > /etc/ld.so.conf.d/roboos.conf
+chmod 644 /etc/ld.so.conf.d/roboos.conf
+rm -f /etc/ld.so.conf.d/roboparty.conf
+
+if command -v ldconfig >/dev/null 2>&1; then
+    ldconfig
+fi
+
+# Add @INSTALL_PREFIX@/bin to sudo secure_path (idempotent on upgrades).
+if [ -f /etc/sudoers ]; then
+    cp /etc/sudoers /etc/sudoers.bak
+    sed -i 's|:@INSTALL_PREFIX@/bin||g' /etc/sudoers
+    sed -i '/secure_path/s|"$|:@INSTALL_PREFIX@/bin"|' /etc/sudoers
+fi
 
 # Reload udev rules and trigger device events
-udevadm control --reload-rules
-# Free the numeric CAN names before USB adapters enumerate. These rules match
-# add events; the default change event cannot rename existing onboard CANs.
-# Leave active interfaces alone when upgrading a running robot.
-for can_path in /sys/devices/platform/fea{5,6,7}0000.can/net/*; do
-    [ -r "$can_path/flags" ] || continue
-    can_flags=$(cat "$can_path/flags")
-    if (( can_flags & 1 )); then
-        continue
-    fi
-    udevadm trigger --action=add "$can_path"
-    udevadm settle
-done
-udevadm trigger --subsystem-match=tty
-udevadm trigger --subsystem-match=net
-udevadm trigger --subsystem-match=misc
+if command -v udevadm >/dev/null 2>&1; then
+    udevadm control --reload-rules
+    # Free the numeric CAN names before USB adapters enumerate. These rules match
+    # add events; the default change event cannot rename existing onboard CANs.
+    # Leave active interfaces alone when upgrading a running robot.
+    for can_path in /sys/devices/platform/fea{5,6,7}0000.can/net/*; do
+        [ -r "$can_path/flags" ] || continue
+        can_flags=$(cat "$can_path/flags")
+        if (( can_flags & 1 )); then
+            continue
+        fi
+        udevadm trigger --action=add "$can_path"
+        udevadm settle
+    done
+    udevadm trigger --subsystem-match=tty
+    udevadm trigger --subsystem-match=net
+    udevadm trigger --subsystem-match=misc
+fi

@@ -2,15 +2,25 @@
 set -e
 
 if [ "$1" = "purge" ]; then
-    systemctl daemon-reload
-    rm -rf /opt/roboparty
-    rm -f /etc/ld.so.conf.d/roboparty.conf
-    rm -f /usr/lib/python3/dist-packages/roboparty.pth
-    rm -f /etc/profile.d/roboparty.sh
-    sed -i 's|:/opt/roboparty/bin||' /etc/sudoers 2>/dev/null
-    ldconfig
-    udevadm control --reload-rules
-    udevadm trigger --subsystem-match=tty
-    udevadm trigger --subsystem-match=net
-    udevadm trigger --subsystem-match=misc
+    if command -v systemctl >/dev/null 2>&1; then
+        systemctl daemon-reload
+    fi
+    rm -rf @INSTALL_PREFIX@
+    rm -f /etc/ld.so.conf.d/roboos.conf /etc/ld.so.conf.d/roboparty.conf
+    rm -f /usr/lib/python3/dist-packages/roboparty.pth 2>/dev/null || true
+    rm -f /etc/profile.d/roboos.sh /etc/profile.d/roboparty.sh
+    rm -f /etc/roboos/env
+    rmdir /etc/roboos 2>/dev/null || true
+    if [ -f /etc/sudoers ]; then
+        sed -i 's|:@INSTALL_PREFIX@/bin||g' /etc/sudoers 2>/dev/null
+    fi
+    if command -v ldconfig >/dev/null 2>&1; then
+        ldconfig
+    fi
+    if command -v udevadm >/dev/null 2>&1; then
+        udevadm control --reload-rules
+        udevadm trigger --subsystem-match=tty
+        udevadm trigger --subsystem-match=net
+        udevadm trigger --subsystem-match=misc
+    fi
 fi
