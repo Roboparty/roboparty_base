@@ -1,3 +1,10 @@
+roboparty-base (1.1.13-1) stable; urgency=medium
+
+  * Configure can_top as classic CAN 2.0 at 1 Mbps for the two-axis classic
+    LRO head; keep can_bottom as CAN-FD 1 M/5 M for the leg bus.
+
+ -- wentywenty <2321901849@qq.com>  Wed, 11 Nov 2026 15:30:00 +0800
+
 roboparty-base (1.1.12-1) stable; urgency=medium
 
   * Honor INSTALL_PREFIX/ROBOOS_PREFIX for setup.bash, roboparty.pth and
